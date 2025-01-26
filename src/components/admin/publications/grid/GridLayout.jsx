@@ -2,7 +2,7 @@
 import React from 'react';
 import GridRow from './GridRow';
 
-const GridLayout = ({ layout, onChange }) => {
+const GridLayout = ({ layout, onChange, publicationId }) => {
   const handleRowUpdate = (rowIndex, updatedRow) => {
     const updatedLayout = [...layout];
     updatedLayout[rowIndex] = updatedRow;
@@ -28,7 +28,8 @@ const GridLayout = ({ layout, onChange }) => {
             id: `cell_${Date.now()}`,
             type: 'text',
             content: '',
-            columnSpan: 4 // Nueva fila ocupa todo el ancho por defecto
+            columnSpan: 4, // Nueva fila ocupa todo el ancho por defecto
+            publicationId // Añadir el ID de la publicación
           }
         ]
       }
@@ -42,6 +43,7 @@ const GridLayout = ({ layout, onChange }) => {
           <GridRow
             key={row.id}
             row={row}
+            publicationId={publicationId}
             onUpdate={(updatedRow) => handleRowUpdate(index, updatedRow)}
             onDelete={() => handleRowDelete(index)}
           />

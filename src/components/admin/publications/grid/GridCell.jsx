@@ -82,12 +82,19 @@ const GridCell = ({ cell, onChange, onDelete, availableColumns = 4 }) => {
     setUploading(true);
     setError('');
 
+    if (!cell.publicationId) {
+      setError('Error: ID de publicación no disponible');
+      setUploading(false);
+      return;
+    }
+
     const formData = new FormData();
     formData.append('image', file);
 
     try {
+      const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
       const response = await axios.post(
-        `http://localhost:8000/api/publications/${cell.publicationId}/upload_cell_image/`,
+        `${API_BASE_URL}/api/publications/${cell.publicationId}/upload_cell_image/`,
         formData,
         {
           headers: {
@@ -97,7 +104,15 @@ const GridCell = ({ cell, onChange, onDelete, availableColumns = 4 }) => {
         }
       );
 
-      handleContentChange(response.data.url);
+      if (response.data && response.data.url) {
+        // Asegurarse de que la URL sea absoluta
+        const imageUrl = response.data.url.startsWith('http') 
+          ? response.data.url 
+          : `${API_BASE_URL}${response.data.url}`;
+        handleContentChange(imageUrl);
+      } else {
+        throw new Error('URL de imagen no válida en la respuesta');
+      }
     } catch (error) {
       console.error('Error uploading image:', error);
       setError('Error al subir la imagen');

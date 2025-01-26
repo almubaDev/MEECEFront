@@ -2,7 +2,7 @@
 import React from 'react';
 import GridCell from './GridCell';
 
-const GridRow = ({ row, onUpdate, onDelete }) => {
+const GridRow = ({ row, onUpdate, onDelete, publicationId }) => {
   const usedColumns = row.cells.reduce((sum, cell) => sum + cell.columnSpan, 0);
   const availableColumns = 4 - usedColumns;
 
@@ -45,7 +45,8 @@ const GridRow = ({ row, onUpdate, onDelete }) => {
           id: `cell_${Date.now()}`,
           type: 'text',
           content: '',
-          columnSpan: availableColumns
+          columnSpan: availableColumns,
+          publicationId
         }
       ]
     });
@@ -67,6 +68,7 @@ const GridRow = ({ row, onUpdate, onDelete }) => {
               onChange={(updatedCell) => handleCellUpdate(index, updatedCell)}
               onDelete={() => handleCellDelete(index)}
               availableColumns={availableColumns + cell.columnSpan}
+              publicationId={publicationId}
             />
           </div>
         ))}

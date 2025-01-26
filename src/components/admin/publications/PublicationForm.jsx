@@ -269,16 +269,23 @@ const PublicationForm = ({ publication, isEdit }) => {
                 </select>
               </div>
 
-              {/* Layout */}
-              <div className="col-span-6">
-                <label className="block text-sm font-medium text-gray-700 mb-4">
-                  Contenido
-                </label>
-                <GridLayout 
-                  layout={form.layout}
-                  onChange={handleLayoutChange}
-                />
-              </div>
+          {/* Layout */}
+          <div className="col-span-6">
+            <label className="block text-sm font-medium text-gray-700 mb-4">
+              Contenido
+            </label>
+            <GridLayout 
+              layout={form.layout.map(row => ({
+                ...row,
+                cells: row.cells.map(cell => ({
+                  ...cell,
+                  publicationId: publication?.id
+                }))
+              }))}
+              onChange={handleLayoutChange}
+              publicationId={publication?.id}
+            />
+          </div>
 
               {/* Imagen Destacada */}
               <div className="col-span-6">
