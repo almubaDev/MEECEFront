@@ -82,27 +82,38 @@ const GridCell = ({ cell, onChange, onDelete, availableColumns = 4 }) => {
     setUploading(true);
     setError('');
 
-    if (!cell.publicationId) {
-      setError('Error: ID de publicación no disponible');
-      setUploading(false);
-      return;
-    }
-
     const formData = new FormData();
     formData.append('image', file);
 
     try {
-      const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-      const response = await axios.post(
-        `${API_BASE_URL}/api/publications/${cell.publicationId}/upload_cell_image/`,
-        formData,
-        {
-          headers: {
-            ...authHeader(),
-            'Content-Type': 'multipart/form-data'
+      const API_BASE_URL = 'http://localhost:8000';
+      let response;
+
+      // Si tenemos ID de publicación, usamos el endpoint específico
+      if (cell.publicationId) {
+        response = await axios.post(
+          `${API_BASE_URL}/api/publications/${cell.publicationId}/upload_cell_image/`,
+          formData,
+          {
+            headers: {
+              ...authHeader(),
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        }
-      );
+        );
+      } else {
+        // Si no hay ID (nueva publicación), usamos el endpoint general de upload
+        response = await axios.post(
+          `${API_BASE_URL}/api/upload-image/`,
+          formData,
+          {
+            headers: {
+              ...authHeader(),
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+      }
 
       if (response.data && response.data.url) {
         // Asegurarse de que la URL sea absoluta
@@ -125,7 +136,7 @@ const GridCell = ({ cell, onChange, onDelete, availableColumns = 4 }) => {
     switch (cell.type) {
       case 'text':
         return (
-          <div style={{ width: '100%' }}>
+          <div className="editor-container" style={{ width: '100%', minHeight: '100px' }}>
             <RichEditor
               value={cell.content}
               onChange={handleContentChange}

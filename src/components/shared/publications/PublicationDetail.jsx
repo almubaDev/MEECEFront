@@ -205,7 +205,7 @@ const PublicationDetail = () => {
                 )}
 
                 {/* Content */}
-                <div className="max-w-4xl mx-auto px-4 py-8">
+                <div className="max-w-[80rem] mx-auto px-6 py-4 my-[-50px] z-[100] relative bg-white">
                     {/* Publication date */}
                     <div className="text-sm text-gray-500 mb-4">
                         {new Date(publication.publish_date).toLocaleDateString('es-ES', {

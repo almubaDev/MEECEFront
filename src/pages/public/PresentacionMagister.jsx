@@ -11,7 +11,7 @@ const PresentacionMagister = () => {
             <MainNav />
             <main className="mceee-page__main content_fix">
                 <PublicationList 
-                    sectionSlug="presentacion-magister"
+                    sectionSlug="presentacion-del-magister"
                     pageTitle="Presentación del Magíster"
                 />
             </main>
