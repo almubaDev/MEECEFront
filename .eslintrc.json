@@ -1,0 +1,11 @@
+{
+    "overrides": [
+      {
+        "files": ["src/tinymce/tinymce.min.js"],
+        "rules": {
+          "no-unused-expressions": "off"
+        }
+      }
+    ]
+  }
+  

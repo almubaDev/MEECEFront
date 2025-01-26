@@ -1,0 +1,51 @@
+
+
+/* Estilos base del editor */
+.editor-content {
+    padding: 1rem;
+    line-height: 1.6;
+}
+
+/* Estilos de imagen */
+.editor-content figure.image {
+    margin: 1em 0;
+    display: table;
+}
+
+.editor-content figure.image img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.editor-content figure.image-style-align-left {
+    float: left;
+    margin-right: 1em;
+    max-width: 50%;
+}
+
+.editor-content figure.image-style-align-right {
+    float: right;
+    margin-left: 1em;
+    max-width: 50%;
+}
+
+.editor-content figure.image-style-align-center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    max-width: 50%;
+}
+
+/* Clearfix para manejar floats */
+.editor-content::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+/* Estilos de texto */
+.editor-content p {
+    margin: 1em 0;
+}
