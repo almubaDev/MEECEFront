@@ -38,7 +38,8 @@ const PublicationDetail = () => {
             style={{
               wordWrap: 'break-word',
               overflowWrap: 'break-word',
-              width: '100%'
+              width: '100%',
+              padding: '0 1.5rem'  // Añadido padding horizontal
             }}
             dangerouslySetInnerHTML={{ __html: cell.content }}
           />
@@ -49,13 +50,12 @@ const PublicationDetail = () => {
             <img 
               src={cell.content} 
               alt="" 
-              className="w-full  rounded-lg shadow-md"
+              className="w-full rounded-lg shadow-md"
             />
           </div>
         );
       case 'video':
         const getEmbedUrl = (url) => {
-          console.log('Processing video URL:', url);
           if (!url) return '';
           
           try {
@@ -68,24 +68,18 @@ const PublicationDetail = () => {
                 videoId = url.split('youtu.be/')[1];
               }
               videoId = videoId?.split('&')[0] || '';
-              console.log('YouTube Video ID:', videoId);
               
               if (videoId) {
-                const embedUrl = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${window.location.origin}&modestbranding=1&playsinline=1`;
-                console.log('YouTube Embed URL:', embedUrl);
-                return embedUrl;
+                return `https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${window.location.origin}&modestbranding=1&playsinline=1`;
               }
             }
             
             // Vimeo
             if (url.includes('vimeo.com')) {
               const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
-              console.log('Vimeo Video ID:', videoId);
               
               if (videoId) {
-                const embedUrl = `https://player.vimeo.com/video/${videoId}?transparent=0&playsinline=1&autopause=0`;
-                console.log('Vimeo Embed URL:', embedUrl);
-                return embedUrl;
+                return `https://player.vimeo.com/video/${videoId}?transparent=0&playsinline=1&autopause=0`;
               }
             }
             
@@ -96,13 +90,10 @@ const PublicationDetail = () => {
           }
         };
 
-        const embedUrl = getEmbedUrl(cell.content);
-        console.log('Final embed URL:', embedUrl);
-
         return (
           <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
             <iframe
-              src={embedUrl}
+              src={getEmbedUrl(cell.content)}
               frameBorder="0"
               allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
@@ -184,7 +175,7 @@ const PublicationDetail = () => {
                       gridColumn: `span ${cell.columnSpan || 1}`,
                       minHeight: cell.type === 'image' ? '300px' : 'auto',
                       width: '100%',
-                      overflow: 'hidden'
+                      overflow: 'visible'  // Cambiado de 'hidden' a 'visible'
                     }}
                   >
                     <div className="h-full w-full">

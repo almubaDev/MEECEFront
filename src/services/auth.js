@@ -1,7 +1,11 @@
 // services/auth.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = `${BASE_URL}/api`;
+
+// Configuración de axios para timeout
+axios.defaults.timeout = parseInt(process.env.REACT_APP_API_TIMEOUT || '30000');
 
 export const login = async (username, password) => {
   try {

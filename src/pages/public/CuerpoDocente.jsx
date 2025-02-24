@@ -1,27 +1,95 @@
-import React from 'react';
+// src/pages/public/CuerpoDocente.jsx
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import TopBar from '../../components/layout/TopBar';
 import MainNav from '../../components/layout/MainNav';
+import BiographyCard from '../../components/shared/BiographyCard';
 
 const CuerpoDocente = () => {
+    const [biographies, setBiographies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchBiographies = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/biographies/');
+                // Asegurarse de que response.data.results existe
+                const results = response.data?.results || [];
+                const activeBiographies = results
+                    .filter(bio => bio?.is_active)
+                    .sort((a, b) => (a?.order || 0) - (b?.order || 0));
+                setBiographies(activeBiographies);
+            } catch (err) {
+                console.error('Error fetching biographies:', err);
+                setError('Ocurrió un error al cargar el cuerpo docente.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBiographies();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="mceee-page">
+                <TopBar />
+                <MainNav />
+                <main className="mceee-page__main content_fix">
+                    <div className="flex justify-center items-center min-h-[400px]">
+                        <div className="text-gray-600">Cargando...</div>
+                    </div>
+                </main>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="mceee-page">
+                <TopBar />
+                <MainNav />
+                <main className="mceee-page__main content_fix">
+                    <div className="flex justify-center items-center min-h-[400px]">
+                        <div className="text-red-600">{error}</div>
+                    </div>
+                </main>
+            </div>
+        );
+    }
+
     return (
         <div className="mceee-page">
             <TopBar />
             <MainNav />
             <main className="mceee-page__main content_fix">
-                <div className="mceee-content">
-                    <h1 className="mceee-content__title">
-                        Cuerpo Docente
-                    </h1>
-                    <div className="mceee-content__container">
-                        {/* Grid de docentes que vendrá del backend */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                            Cuerpo Docente
+                        </h1>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Conoce a nuestro destacado equipo de académicos del Magíster en Educación Emocional y Convivencia Escolar.
+                        </p>
                     </div>
+
+                    {biographies.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {biographies.map((biography) => (
+                                <BiographyCard 
+                                    key={biography?.id || Math.random()} 
+                                    biography={biography}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center text-gray-600">
+                            No hay biografías disponibles en este momento.
+                        </div>
+                    )}
                 </div>
             </main>
-            <footer className="mceee-page__footer">
-                <div className="mceee-footer__container">
-                    {/* Contenido del footer */}
-                </div>
-            </footer>
         </div>
     );
 };
