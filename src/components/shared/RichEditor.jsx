@@ -13,7 +13,7 @@ const RichEditor = ({
     return (
         <div className={`rich-editor-container relative ${className}`}>
             <Editor
-                tinymceScriptSrc="/tinymce/tinymce.min.js"
+                tinymceScriptSrc="https://mceee.pythonanywhere.com/static/tinymce/tinymce.min.js"
                 onInit={(evt, editor) => {
                     editorRef.current = editor;
                 }}
@@ -21,6 +21,8 @@ const RichEditor = ({
                 init={{
                     height: 400,
                     menubar: true,
+                    language: 'es',
+                    language_url: 'https://mceee.pythonanywhere.com/static/tinymce/langs/es.js',
                     plugins: 'lists advlist link image charmap preview anchor ' +
                             'searchreplace visualblocks code fullscreen ' +
                             'insertdatetime media table paste code help wordcount',
