@@ -52,7 +52,7 @@ const PublicationForm = ({ publication, isEdit }) => {
         return;
       }
 
-      const response = await axios.get('http://localhost:8000/api/sections/', {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/sections/`, {
         headers: authHeader()
       });
       setSections(response.data.results || []);
@@ -168,13 +168,13 @@ const PublicationForm = ({ publication, isEdit }) => {
 
       if (isEdit) {
         await axios.patch(
-          `http://localhost:8000/api/publications/${publication.id}/`,
+          `${process.env.REACT_APP_API_URL}/api/publications/${publication.id}/`,
           formData,
           config
         );
       } else {
         await axios.post(
-          'http://localhost:8000/api/publications/',
+          `${process.env.REACT_APP_API_URL}/api/publications/`,
           formData,
           config
         );

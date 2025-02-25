@@ -86,7 +86,7 @@ const GridCell = ({ cell, onChange, onDelete, availableColumns = 4 }) => {
     formData.append('image', file);
 
     try {
-      const API_BASE_URL = 'http://localhost:8000';
+      const API_BASE_URL = process.env.REACT_APP_API_URL;
       let response;
 
       // Si tenemos ID de publicación, usamos el endpoint específico
