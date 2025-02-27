@@ -116,7 +116,8 @@ const BiographyList = () => {
 
   const fetchBiographies = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/biographies/', {
+      const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const response = await axios.get(`${BASE_URL}/api/biographies/`, {
         headers: authHeader()
       });
       console.log('API Response:', response.data); // Para debug
@@ -132,7 +133,8 @@ const BiographyList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar esta biografía?')) {
       try {
-        await axios.delete(`http://localhost:8000/api/biographies/${id}/`, {
+        const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+        await axios.delete(`${BASE_URL}/api/biographies/${id}/`, {
           headers: authHeader()
         });
         fetchBiographies();
@@ -159,7 +161,7 @@ const BiographyList = () => {
         }));
         
         axios.patch(
-          'http://localhost:8000/api/biographies/reorder/',
+          `${BASE_URL}/api/biographies/reorder/`,
           orderUpdate,
           { headers: authHeader() }
         ).catch(error => {

@@ -14,7 +14,7 @@ const PublicationDetail = () => {
     const fetchPublication = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/publications/${id}/`,
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/publications/${id}/`,
           { headers: authHeader() }
         );
         console.log('Publication data:', response.data);

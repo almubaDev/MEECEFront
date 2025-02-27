@@ -43,13 +43,13 @@ const SectionForm = ({ section, isEdit }) => {
 
       if (isEdit) {
         await axios.patch(
-          `http://localhost:8000/api/sections/${section.id}/`,
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/sections/${section.id}/`,
           form,
           config
         );
       } else {
         await axios.post(
-          'http://localhost:8000/api/sections/',
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/sections/`,
           form,
           config
         );

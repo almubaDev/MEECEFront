@@ -14,7 +14,7 @@ const BiographyDetail = () => {
     const fetchBiography = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/biographies/${id}/`,
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/biographies/${id}/`,
           { headers: authHeader() }
         );
         setBiography(response.data);

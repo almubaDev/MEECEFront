@@ -81,13 +81,13 @@ const BiographyForm = ({ biography, isEdit }) => {
 
       if (isEdit) {
         await axios.patch(
-          `http://localhost:8000/api/biographies/${biography.id}/`,
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/biographies/${biography.id}/`,
           formData,
           config
         );
       } else {
         await axios.post(
-          'http://localhost:8000/api/biographies/',
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/biographies/`,
           formData,
           config
         );

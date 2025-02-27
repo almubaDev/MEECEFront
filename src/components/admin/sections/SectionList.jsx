@@ -94,7 +94,7 @@ const SectionList = () => {
 
   const fetchSections = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/sections/', {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/sections/`, {
         headers: authHeader()
       });
       setSections(response.data.results || []);
@@ -109,7 +109,7 @@ const SectionList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar esta sección?')) {
       try {
-        await axios.delete(`http://localhost:8000/api/sections/${id}/`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/sections/${id}/`, {
           headers: authHeader()
         });
         fetchSections();
@@ -135,7 +135,7 @@ const SectionList = () => {
         }));
         
         axios.patch(
-          'http://localhost:8000/api/sections/reorder/',
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/sections/reorder/`,
           orderUpdate,
           { headers: authHeader() }
         ).catch(error => {

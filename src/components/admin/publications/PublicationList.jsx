@@ -136,7 +136,7 @@ const PublicationList = () => {
 
   const fetchSections = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/sections/', {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/sections/`, {
         headers: authHeader()
       });
       setSections(response.data.results || []);
@@ -148,8 +148,8 @@ const PublicationList = () => {
   const fetchPublications = async () => {
     try {
       const url = selectedSection 
-        ? `http://localhost:8000/api/publications/?section=${selectedSection}`
-        : 'http://localhost:8000/api/publications/';
+        ? `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/publications/?section=${selectedSection}`
+        : `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/publications/`;
       
       const response = await axios.get(url, {
         headers: authHeader()
@@ -166,7 +166,7 @@ const PublicationList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar esta publicación?')) {
       try {
-        await axios.delete(`http://localhost:8000/api/publications/${id}/`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/publications/${id}/`, {
           headers: authHeader()
         });
         fetchPublications();
@@ -192,7 +192,7 @@ const PublicationList = () => {
         }));
         
         axios.patch(
-          'http://localhost:8000/api/publications/reorder/',
+          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/publications/reorder/`,
           orderUpdate,
           { headers: authHeader() }
         ).catch(error => {
