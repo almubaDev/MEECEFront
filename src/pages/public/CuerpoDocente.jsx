@@ -1,9 +1,9 @@
 // src/pages/public/CuerpoDocente.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import TopBar from '../../components/layout/TopBar';
 import MainNav from '../../components/layout/MainNav';
 import BiographyCard from '../../components/shared/BiographyCard';
+import { getPublicBiographies } from '../../services/publicApi';
 
 const CuerpoDocente = () => {
     const [biographies, setBiographies] = useState([]);
@@ -13,9 +13,8 @@ const CuerpoDocente = () => {
     useEffect(() => {
         const fetchBiographies = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/biographies/');
-                // Asegurarse de que response.data.results existe
-                const results = response.data?.results || [];
+                const data = await getPublicBiographies();
+                const results = data?.results || [];
                 const activeBiographies = results
                     .filter(bio => bio?.is_active)
                     .sort((a, b) => (a?.order || 0) - (b?.order || 0));

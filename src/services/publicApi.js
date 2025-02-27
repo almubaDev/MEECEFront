@@ -4,13 +4,16 @@ import axios from 'axios';
 const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 const API_URL = `${BASE_URL}/api/public`;
 
-// Configuración de axios para timeout
-axios.defaults.timeout = parseInt(process.env.REACT_APP_API_TIMEOUT || '30000');
+// Crear una instancia separada de axios para peticiones públicas
+const publicAxios = axios.create({
+    baseURL: BASE_URL,
+    timeout: parseInt(process.env.REACT_APP_API_TIMEOUT || '30000')
+});
 
 // Publicaciones
 export const getPublicPublications = async (sectionSlug) => {
     try {
-        const response = await axios.get(`${API_URL}/publications/`, {
+        const response = await publicAxios.get(`/api/public/publications/`, {
             params: { section_slug: sectionSlug }
         });
         return response.data;
@@ -22,7 +25,7 @@ export const getPublicPublications = async (sectionSlug) => {
 
 export const getPublicPublication = async (id) => {
     try {
-        const response = await axios.get(`${API_URL}/publication/${id}/`);
+        const response = await publicAxios.get(`/api/public/publication/${id}/`);
         return response.data;
     } catch (error) {
         console.error('Error fetching public publication:', error);
@@ -33,7 +36,7 @@ export const getPublicPublication = async (id) => {
 // Biografías (para cuerpo docente)
 export const getPublicBiographies = async () => {
     try {
-        const response = await axios.get(`${API_URL}/biographies/`);
+        const response = await publicAxios.get(`/api/public/biographies/`);
         return response.data;
     } catch (error) {
         console.error('Error fetching public biographies:', error);
@@ -44,7 +47,7 @@ export const getPublicBiographies = async () => {
 // Secciones
 export const getPublicSections = async () => {
     try {
-        const response = await axios.get(`${API_URL}/sections/`);
+        const response = await publicAxios.get(`/api/public/sections/`);
         return response.data;
     } catch (error) {
         console.error('Error fetching public sections:', error);
