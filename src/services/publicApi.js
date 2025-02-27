@@ -1,8 +1,7 @@
 // services/publicApi.js
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-const API_URL = `${BASE_URL}/api/public`;
+const BASE_URL = process.env.REACT_APP_API_URL || 'https://mceee.pythonanywhere.com';
 
 // Crear una instancia separada de axios para peticiones públicas
 const publicAxios = axios.create({
@@ -16,6 +15,7 @@ export const getPublicPublications = async (sectionSlug) => {
         const response = await publicAxios.get(`/api/public/publications/`, {
             params: { section_slug: sectionSlug }
         });
+        console.log('Publications response:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching public publications:', error);
@@ -26,6 +26,7 @@ export const getPublicPublications = async (sectionSlug) => {
 export const getPublicPublication = async (id) => {
     try {
         const response = await publicAxios.get(`/api/public/publication/${id}/`);
+        console.log('Publication detail response:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching public publication:', error);
@@ -36,10 +37,16 @@ export const getPublicPublication = async (id) => {
 // Biografías (para cuerpo docente)
 export const getPublicBiographies = async () => {
     try {
-        const response = await publicAxios.get(`/api/public/biographies/`);
+        console.log('Fetching biographies from:', `${BASE_URL}/api/public/biographies/`);
+        const response = await publicAxios.get('/api/public/biographies/');
+        console.log('Biographies response:', response.data);
         return response.data;
     } catch (error) {
-        console.error('Error fetching public biographies:', error);
+        console.error('Error fetching public biographies:', {
+            message: error.message,
+            response: error.response,
+            stack: error.stack
+        });
         throw error;
     }
 };

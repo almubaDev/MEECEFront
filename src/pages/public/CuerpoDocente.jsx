@@ -13,14 +13,29 @@ const CuerpoDocente = () => {
     useEffect(() => {
         const fetchBiographies = async () => {
             try {
+                console.log('Fetching biographies...');
                 const data = await getPublicBiographies();
-                const results = data?.results || [];
+                console.log('Raw biography data:', data);
+
+                // Manejar diferentes formatos de respuesta
+                let results = [];
+                if (data.results && Array.isArray(data.results)) {
+                    results = data.results;
+                } else if (Array.isArray(data)) {
+                    results = data;
+                }
+
+                console.log('Processed biographies:', results);
+                
+                // Filtrar y ordenar biographies
                 const activeBiographies = results
-                    .filter(bio => bio?.is_active)
+                    .filter(bio => bio && bio.is_active !== false) // Incluir si is_active es true o no está definido
                     .sort((a, b) => (a?.order || 0) - (b?.order || 0));
+                
+                console.log('Active biographies:', activeBiographies);
                 setBiographies(activeBiographies);
             } catch (err) {
-                console.error('Error fetching biographies:', err);
+                console.error('Error details:', err);
                 setError('Ocurrió un error al cargar el cuerpo docente.');
             } finally {
                 setLoading(false);

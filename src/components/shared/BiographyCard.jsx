@@ -5,9 +5,14 @@ const BiographyCard = ({ biography }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 150;
 
+  // Verificar que biography existe
   if (!biography) {
+    console.warn('BiographyCard: Received undefined biography');
     return null;
   }
+
+  // Log para depuración
+  console.log('Rendering biography card:', biography);
 
   const truncatedBiography = biography.biography?.length > maxLength 
     ? `${biography.biography.substring(0, maxLength)}...` 
@@ -25,11 +30,16 @@ const BiographyCard = ({ biography }) => {
                 src={biography.photo}
                 alt={biography.name || ''}
                 className="w-full h-full object-cover object-top"
+                onError={(e) => {
+                  console.error('Failed to load image:', biography.photo);
+                  e.target.onerror = null;
+                  e.target.src = 'https://via.placeholder.com/150?text=Photo';
+                }}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-100">
                 <span className="text-3xl text-gray-400">
-                  {biography.name?.charAt(0) || ''}
+                  {biography.name?.charAt(0) || '?'}
                 </span>
               </div>
             )}
@@ -70,10 +80,10 @@ const BiographyCard = ({ biography }) => {
         <div className="col-span-7 p-4">
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-1">
-              {biography.name || ''}
+              {biography.name || 'Sin nombre'}
             </h3>
             <p className="text-[#1a76cf] font-medium mb-3 text-sm">
-              {biography.position || ''}
+              {biography.position || 'Sin cargo'}
             </p>
             
             <div className="prose max-w-none">
