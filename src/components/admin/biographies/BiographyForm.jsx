@@ -19,6 +19,8 @@ const BiographyForm = ({ biography, isEdit }) => {
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [charCount, setCharCount] = useState(0);
+  const maxBioLength = 500; // Establecemos el límite máximo de caracteres
 
   useEffect(() => {
     if (biography) {
@@ -31,6 +33,7 @@ const BiographyForm = ({ biography, isEdit }) => {
         is_active: biography.is_active ?? true,
         order: biography.order || 0,
       });
+      setCharCount(biography.biography ? biography.biography.length : 0);
       if (biography.photo) {
         setPreview(biography.photo);
       }
@@ -39,10 +42,22 @@ const BiographyForm = ({ biography, isEdit }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    
+    // Para el campo de biografía, verificar la longitud
+    if (name === 'biography') {
+      if (value.length <= maxBioLength) {
+        setForm(prev => ({
+          ...prev,
+          [name]: value
+        }));
+        setCharCount(value.length);
+      }
+    } else {
+      setForm(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value
+      }));
+    }
   };
 
   const handleImageChange = (e) => {
@@ -147,14 +162,20 @@ const BiographyForm = ({ biography, isEdit }) => {
                 <label className="block text-sm font-medium text-gray-700">
                   Biografía
                 </label>
-                <textarea
-                  name="biography"
-                  value={form.biography}
-                  onChange={handleChange}
-                  rows={4}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
-                />
+                <div className="relative">
+                  <textarea
+                    name="biography"
+                    value={form.biography}
+                    onChange={handleChange}
+                    rows={4}
+                    maxLength={maxBioLength}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    required
+                  />
+                  <div className="text-xs text-gray-500 mt-1 text-right">
+                    {charCount}/{maxBioLength} caracteres
+                  </div>
+                </div>
               </div>
 
               <div className="col-span-6 sm:col-span-3">
