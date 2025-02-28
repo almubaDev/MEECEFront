@@ -13,14 +13,14 @@ const BiographyForm = ({ biography, isEdit }) => {
     email: '',
     linkedin: '',
     is_active: true,
-    order: 0,
+    order: 2,
     photo: null
   });
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [charCount, setCharCount] = useState(0);
-  const maxBioLength = 500; // Establecemos el límite máximo de caracteres
+  const maxBioLength = 3000; // Establecemos el límite máximo de caracteres
 
   useEffect(() => {
     if (biography) {
