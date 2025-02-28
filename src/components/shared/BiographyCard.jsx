@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 const BiographyCard = ({ biography }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const maxLength = 120; // Reducido de 150 a 120 caracteres
+  const maxLength = 100; // Reducido aún más para ocupar menos espacio
 
   // Verificar que biography existe
   if (!biography) {
@@ -16,12 +16,12 @@ const BiographyCard = ({ biography }) => {
     : biography.biography || '';
 
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md border-l-4" 
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md border-l-4 w-full max-w-md" 
          style={{ borderLeftColor: '#1a76cf' }}>
-      <div className="grid grid-cols-12 gap-3">
-        {/* Columna de la foto - reducida de 5 a 4 columnas */}
+      <div className="grid grid-cols-12 gap-2">
+        {/* Columna de la foto - reducida aún más */}
         <div className="col-span-4 relative">
-          <div className="aspect-[3/4] relative max-h-[200px]"> {/* Reducida de 240px a 200px */}
+          <div className="aspect-[3/4] relative max-h-[180px]">
             {biography.photo ? (
               <img
                 src={biography.photo}
@@ -35,13 +35,13 @@ const BiographyCard = ({ biography }) => {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                <span className="text-2xl text-gray-400">
+                <span className="text-xl text-gray-400">
                   {biography.name?.charAt(0) || '?'}
                 </span>
               </div>
             )}
             <div className="absolute bottom-0 left-0 right-0 bg-white/90">
-              <div className="p-2 flex flex-col space-y-1">
+              <div className="p-1 flex flex-col space-y-0.5">
                 {biography.email && (
                   <a
                     href={`mailto:${biography.email}`}
@@ -75,18 +75,18 @@ const BiographyCard = ({ biography }) => {
           </div>
         </div>
 
-        {/* Columna de información - aumentada de 7 a 8 columnas */}
-        <div className="col-span-8 p-3">
+        {/* Columna de información */}
+        <div className="col-span-8 p-2">
           <div>
-            <h3 className="text-base font-bold text-gray-900 mb-1">
+            <h3 className="text-sm font-bold text-gray-900 mb-0.5">
               {biography.name || 'Sin nombre'}
             </h3>
-            <p className="text-[#1a76cf] font-medium mb-2 text-xs">
+            <p className="text-[#1a76cf] font-medium mb-1.5 text-xs">
               {biography.position || 'Sin cargo'}
             </p>
             
             <div className="prose max-w-none">
-              <p className="text-gray-600 text-xs">
+              <p className="text-gray-600 text-xs leading-tight">
                 {isExpanded ? biography.biography : truncatedBiography}
               </p>
               {biography.biography?.length > maxLength && (

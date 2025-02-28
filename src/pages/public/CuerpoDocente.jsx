@@ -78,23 +78,22 @@ const CuerpoDocente = () => {
             <TopBar />
             <MainNav />
             <main className="mceee-page__main content_fix">
-                <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900 mb-3">
                             Cuerpo Docente
                         </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                             Conoce a nuestro destacado equipo de académicos del Magíster en Educación Emocional y Convivencia Escolar.
                         </p>
                     </div>
 
                     {biographies.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                             {biographies.map((biography) => (
-                                <BiographyCard 
-                                    key={biography?.id || Math.random()} 
-                                    biography={biography}
-                                />
+                                <div key={biography?.id || Math.random()} className="flex justify-center">
+                                    <BiographyCard biography={biography} />
+                                </div>
                             ))}
                         </div>
                     ) : (
